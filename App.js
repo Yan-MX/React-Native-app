@@ -1,21 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Header from "./components/Header";
+import StartScreen from "./screens/StartScreen";
+import GameScreen from "./screens/GameScreen";
 
 export default function App() {
+  const [num, setNum] = useState("");
+  const startGameHandler = (number) => {
+    setNum(number);
+  };
+  let content = <StartScreen onStartGame={startGameHandler} />;
+  if (num !== "") {
+    content = <GameScreen userChoice={num} />;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.screen}>
+      <Header title="GUESS A NUMBER" />
+      {content}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
