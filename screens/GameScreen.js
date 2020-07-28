@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Text, View, StyleSheet, Button, Alert } from "react-native";
 
 const RandomNum = (min, max, exclude) => {
@@ -11,7 +11,19 @@ const RandomNum = (min, max, exclude) => {
 };
 
 const GameScreen = (props) => {
-  const [currentGuess, setGuess] = useState(RandomNum(1, 99, props.userChoice));
+  const [currentGuess, setGuess] = useState(
+    RandomNum(1, 100, props.userChoice)
+  );
+  const [round, setRound] = useState(0);
+  const currentLow = useRef(1);
+  const currentHigh = useRef(100);
+  const { userChoice, onGameOver } = props;
+  useEffect(() => {
+    if (currentGuess === userChoice) {
+      onGameOver(round);
+    }
+  }),
+    [currentGuess, userChoice, onGameOver];
   const nextGuessHandler = (direction) => {
     if (
       (direction === "lower" && currentGuess < props.userChoice) ||
@@ -23,13 +35,23 @@ const GameScreen = (props) => {
       return;
     }
     if (direction === "lower") {
+      currentHigh.current = currentGuess - 1;
+    } else {
+      currentLow.current = currentGuess + 1;
     }
+    setRound((rou) => rou + 1);
+    const next = RandomNum(
+      currentLow.current,
+      currentHigh.current,
+      currentGuess
+    );
+    setGuess(next);
   };
   return (
     <View style={styles.screen}>
       <View style={styles.card}>
-        <Text>Opponent's Guess</Text>
-        <Text>{currentGuess}</Text>
+        <Text>Computer's Guess</Text>
+        <Text style={styles.border}>{currentGuess}</Text>
         <View style={styles.buttonContainer}>
           <Button
             style={styles.b}
@@ -47,6 +69,13 @@ const GameScreen = (props) => {
   );
 };
 const styles = StyleSheet.create({
+  border: {
+    borderWidth: 2,
+    borderColor: "orange",
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 10,
+  },
   screen: {
     flex: 1,
     padding: 10,

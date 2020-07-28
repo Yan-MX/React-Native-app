@@ -36,7 +36,7 @@ export default StartScreen = (props) => {
   };
   let confirmOutput = (
     <View style={styles.card}>
-      <Text>SELECT A NUMBER</Text>
+      <Text>Select a number:</Text>
       <Input2
         autoCorrect={false}
         blurOnSubmit
@@ -47,11 +47,11 @@ export default StartScreen = (props) => {
       />
       <View style={styles.button}>
         <Button
-          title="RESET"
+          title="Reset"
           color={Color.primary}
           onPress={resetInputHandler}
         ></Button>
-        <Button title="CONFIRM" onPress={confirmInputHandler}></Button>
+        <Button title="Confirm" onPress={confirmInputHandler}></Button>
       </View>
     </View>
   );
@@ -63,7 +63,7 @@ export default StartScreen = (props) => {
           <Text>{selectedNum}</Text>
         </View>
         <Button
-          title="START GAME"
+          title="Start Game"
           color={Color.primary}
           onPress={() => props.onStartGame(selectedNum)}
         ></Button>
@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 15,
   },
-  confirm: {},
   confirmN: {
     borderWidth: 2,
+    borderRadius: 15,
     borderColor: Color.primary,
     padding: 10,
     borderRadius: 10,
